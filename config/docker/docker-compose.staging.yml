@@ -11,3 +11,20 @@ services:
     env_file:
       - ../env/.env
       - ../env/.env.stg
+
+  backend:
+    volumes:
+      - ../../backend/:/app/
+    image: backend
+    container_name: backend
+    command: ['runserver']
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../env/.env
+      - ../env/.env.stg
+
+networks:
+  default:

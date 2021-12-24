@@ -1,0 +1,44 @@
+#!/bin/bash
+set -x
+action=$1
+shift
+
+case $action in
+
+  runserver)
+    (python manage.py migrate || exit 1 ) && python manage.py runserver 0.0.0.0:8000
+    ;;
+  daphne)
+    (python manage.py migrate || exit 1 ) && daphne project.asgi:application -b 0.0.0.0 -p 80
+    ;;
+  gunicorn)
+    (python manage.py migrate || exit 1 ) && gunicorn project.wsgi:application  --workers=2  -t 60 -b 0.0.0.0:80
+    ;;
+  migrate)
+    exec python manage.py migrate
+    ;;
+  makemigrations)
+    exec python manage.py makemigrations
+    ;;
+  init-data)
+    exec python manage.py loaddata NONE
+    ;;
+  shell)
+    exec python manage.py shell_plus
+    ;;
+  test)
+    exec pytest "$@" tests
+    ;;
+  celery)
+    celery -A project.celery worker -Q default -l INFO "$@"
+    ;;
+  celery-auction-worker)
+    celery -A project.celery worker -Q auction_timing_queue -l INFO "$@"
+    ;;
+  celery-beat)
+    celery -A project.celery beat -l INFO "$@"
+    ;;
+  *)
+    exec $action "$@"
+    ;;
+esac

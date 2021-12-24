@@ -1,5 +1,5 @@
-django==3.2.7
-djangorestframework==3.12.4
-Markdown==3.3.4
-django-filter==2.4.0
-django-allauth==0.45.0
+django
+djangorestframework
+Markdown
+django-filter
+django-allauth
