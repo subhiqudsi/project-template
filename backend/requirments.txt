@@ -3,3 +3,5 @@ djangorestframework
 Markdown
 django-filter
 django-allauth
+coreapi
+pyyaml

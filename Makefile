@@ -7,7 +7,9 @@ image: ## build frontend backend statics images
 	docker build  --target frontend-prod-stage ./frontend -t frontend-prod-stage
 
 run:       ## Run app locally
+	docker-compose -f ./config/docker/docker-compose.dev.yml stop
 	docker-compose -f ./config/docker/docker-compose.dev.yml up -d
+	docker-compose -f ./config/docker/docker-compose.dev.yml exec backend python manage.py migrate
 
 restart:       ## restart dev env
 	docker-compose -f ./config/docker/docker-compose.dev.yml restart
