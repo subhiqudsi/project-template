@@ -12,8 +12,11 @@ run:       ## Run app locally
 restart:       ## restart dev env
 	docker-compose -f ./config/docker/docker-compose.dev.yml restart
 
-ssh-frontend:       ## ssh frontend
+ssh-fe:       ## ssh frontend
 	docker-compose -f ./config/docker/docker-compose.dev.yml exec frontend bash
+
+ssh-be:       ## ssh backend
+	docker-compose -f ./config/docker/docker-compose.dev.yml exec backend bash
 
 logs-fe:       ## logs frontend
 	docker-compose -f ./config/docker/docker-compose.dev.yml logs -f --tail=100 frontend
