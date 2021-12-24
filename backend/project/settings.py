@@ -41,9 +41,19 @@ INSTALLED_APPS = [
                      'allauth.account',
                      'allauth.socialaccount',
                  ] + [
-                    # gets all apps names under folder apps
+                     # gets all apps names under folder apps
                      f"apps.{name}" for _, name, _ in pkgutil.iter_modules(['apps'])
                  ]
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+
+}
 
 SITE_ID = 1
 

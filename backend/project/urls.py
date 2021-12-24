@@ -21,26 +21,30 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.defaults import page_not_found
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter, SimpleRouter
 from rest_framework.documentation import include_docs_urls
 
 router = DefaultRouter()
 
+
+apps_urls = [path(f"{name}/", include(f"apps.{name}.urls")) for _, name, _ in pkgutil.iter_modules(['apps'])]
+
 urlpatterns = [
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
     path('api-docs/', include_docs_urls(title='API Docs')),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    * apps_urls
 ]
 
 
-apps_urls = [path(f"{name}/", include(f"apps.{name}.urls")) for _, name, _ in pkgutil.iter_modules(['apps'])]
+
 
 urlpatterns += i18n_patterns(
 
     path('admin/', admin.site.urls),
     re_path(r'^accounts/signup/$', page_not_found, {'exception': Exception('Not Found')}),
     re_path(r'^accounts/', include('allauth.urls')),
-    *apps_urls
+
 
     # path('', include('project.apps.common.urls')),
     # sql explorer
