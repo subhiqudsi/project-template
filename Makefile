@@ -11,6 +11,15 @@ run:       ## Run app locally
 	docker-compose -f ./config/docker/docker-compose.dev.yml up -d
 	docker-compose -f ./config/docker/docker-compose.dev.yml exec backend python manage.py migrate
 
+down: ## turn off backend frontend servers
+	docker-compose -f ./config/docker/docker-compose.dev.yml down
+
+services:       ## Run dbs & other needed services
+	docker-compose -f ./config/docker/docker-compose.services.yml up -d
+
+services-down:       ## turn off dbs & other services
+	docker-compose -f ./config/docker/docker-compose.services.yml down
+
 restart:       ## restart dev env
 	docker-compose -f ./config/docker/docker-compose.dev.yml restart
 

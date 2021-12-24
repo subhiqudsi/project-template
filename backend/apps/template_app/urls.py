@@ -3,7 +3,7 @@ from apps.template_app import views
 from project.urls import router
 app_name = "template_app"
 
-router.register('users', views.UserViewSet)
+router.register(f'{app_name}/users', views.UserViewSet)
 
 urlpatterns = [
     # path('function-view-example/<purpose>/<amount>', views.function_view_example, name='function_view_example'),

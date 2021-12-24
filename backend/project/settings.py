@@ -9,10 +9,13 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
 import pkgutil
 from pathlib import Path
 
 # Build paths inside the temporary_name like this: BASE_DIR / 'subdir'.
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -99,11 +102,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgres://postgres@postgres:5432/app_db')
 DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL),
+}
+
+CACHES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': os.getenv('MEMCACHED', 'memcached:11211'),
+    },
 }
 
 # Password validation
