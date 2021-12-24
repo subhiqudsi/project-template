@@ -1,0 +1,13 @@
+version: '2'
+services:
+  frontend:
+    image: frontend
+    container_name: frontend
+    command: [ "npm", "run", "serve" ]
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../env/.env
+      - ../env/.env.stg
